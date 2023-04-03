@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    restart: always
+    environment:
+      - MONGODB_USERNAME=
+      - MONGODB_PASSWORD=
+      - MONGODB_DATABASE=
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./volume/mongodb:/data/db
