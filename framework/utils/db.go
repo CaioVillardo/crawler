@@ -25,7 +25,7 @@ func ConnectDB() *gorm.DB {
 		panic(err)
 	}
 
-	db.AutoMigrate(&domain.User{})
+	db.AutoMigrate(&domain.Ticket{})
 
 	return db
 
