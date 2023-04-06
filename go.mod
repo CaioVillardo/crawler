@@ -1,4 +1,4 @@
-module 
+module github.com/caiovillardo/crawler
 
 go 1.23
 

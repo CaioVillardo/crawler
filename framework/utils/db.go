@@ -3,6 +3,8 @@ package utils
 import (
 	"log"
 	"os"
+
+	"github.com/caiovillardo/crawler/domain"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 )
