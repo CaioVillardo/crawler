@@ -16,14 +16,14 @@ const apiKey = "d495699b-f706-4ca6-9149-51012215ace3"
 const route = "/services"
 
 func fetchData() {
-	limiter := rate.NewLimiter(rate.Limit(6), 1) // Limite de 6 requisições por minuto
+	limiter := rate.NewLimiter(rate.Limit(10), 1)
 	url := fmt.Sprintf("%s%s", baseUrl, route)
 	req, err := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("token", apiKey)
 
 	for {
-		err = limiter.Wait(req.Context()) // Espera o limite de requisições
+		err = limiter.Wait(req.Context())
 		if err != nil {
 			panic(err)
 		}
@@ -106,10 +106,14 @@ func fetchData() {
 
 	for _, ticket := range ticketsJs {
 		sqlStatement := `
-            INSERT INTO tickets (id, title, status, priority)
-            VALUES ($1, $2, $3, $4)`
+	        INSERT INTO tickets (id, title, status, priority, name, description, parentServiceId,
+			serviceForTicketType, isVisible, allowSelection, allowFinishTicket, isActive, automationMacro,
+			defaultUrgency,allowAllCategories)
+	        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`
 		_, err = db.Exec(sqlStatement, ticket.Id,
-			ticket.Title, ticket.Status, ticket.Priority)
+			ticket.Title, ticket.Status, ticket.Priority, ticket.Name, ticket.Description, ticket.ParentServiceId,
+			ticket.ServiceForTicketType, ticket.IsVisible, ticket.AllowSelection, ticket.AllowFinishTicket, ticket.IsActive, ticket.AutomationMacro,
+			ticket.DefaultUrgency, ticket.AllowAllCategories)
 		if err != nil {
 			panic(err)
 		}
