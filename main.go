@@ -97,7 +97,7 @@ func fetchData() {
 	}
 
 	dbinfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		"localhost", 5436, "postgres", "era.a", "Crawler")
 	db, err := sql.Open("postgres", dbinfo)
 	if err != nil {
 		panic(err)
@@ -107,13 +107,13 @@ func fetchData() {
 	for _, ticket := range ticketsJs {
 		sqlStatement := `
 	        INSERT INTO tickets (id, title, status, priority, name, description, parentServiceId,
-			serviceForTicketType, isVisible, allowSelection, allowFinishTicket, isActive, automationMacro,
+			serviceForTicketType, isVisible, allowSelection, allowFinishTicket, isActive, automationMacro, defaultCategory,
 			defaultUrgency,allowAllCategories)
 	        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)`
 		_, err = db.Exec(sqlStatement, ticket.Id,
 			ticket.Title, ticket.Status, ticket.Priority, ticket.Name, ticket.Description, ticket.ParentServiceId,
 			ticket.ServiceForTicketType, ticket.IsVisible, ticket.AllowSelection, ticket.AllowFinishTicket, ticket.IsActive, ticket.AutomationMacro,
-			ticket.DefaultUrgency, ticket.AllowAllCategories)
+			ticket.DefaultCategory, ticket.DefaultUrgency, ticket.AllowAllCategories)
 		if err != nil {
 			panic(err)
 		}
